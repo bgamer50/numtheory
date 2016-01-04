@@ -15,10 +15,10 @@ The finished version of this project will hopefully be a Python library of Numbe
 		* Solve Linear Diophantine Equations
 		* Solve Linear Congruence Equations
 		* Compute Legendre Symbols
+		* Find φ(n), Τ(n), σ(n) Given Prime Factorizations
 
 ## To-Do:
 	1. More Advanced Functions
-		* Find φ(n), Τ(n), σ(n) Given Prime Factorizations
 		* Find the Order of a Number Mod m Given Prime Factorizations
 		* Find Primitive Roots Given Prime Factorizations
 	2. More Basic Functions
@@ -29,6 +29,8 @@ The finished version of this project will hopefully be a Python library of Numbe
 		* Proper installable library
 	4. Really Cool Stuff
 		* More CRT fun
+		* Better Legendre
+		* Objects???
 		* ???
 	5. Documentation
 		* Advanced functions (i.e. crt_decompose)

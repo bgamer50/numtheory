@@ -272,3 +272,16 @@ int phi(int *primes, int *powers) {
 
 	return p;
 }
+
+/*
+Solves linear congruence equations of the form
+a*x cong. b (mod m). Returns 0 if no solution
+exists.
+*/
+int solve_linear_congruence(int a, int b, int m) {
+	int *s = solve_linear_diophantine(a, m, b);
+	if(s == NULL)
+		return 0;
+	else
+		return s[0];
+}

@@ -24,17 +24,13 @@ int tau(int *powers);
 
 int phi(int *primes, int *powers);
 
-int sigima(int *primes, int *powers);
+int sigma(int *primes, int *powers);
 
-/*
-Solves linear congruence equations of the form
-a*x cong. b (mod m). (macro)
-*/
-#define solve_linear_congruence(a, b, m) = ( mult_inv( (a), (m) ) * (b) )
+int solve_linear_congruence(int a, int b, int m);
 
 /*
 Converts a to a positive least residue mod m
 */
-#define positive_least_residue(a, m) = ( positive_residue( (a), (m) ) % (m) )
+#define positive_least_residue(a, m) ( positive_residue( (a), (m) ) % (m) )
 
 #endif
