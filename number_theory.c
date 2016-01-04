@@ -105,11 +105,9 @@ int mult_inv(int a, int m) {
 
 /*
 Extended Eucliean Algorithm.  Returns the gcd of
-a and b, and coefficients such that a * cA + b * cB = 1,
-provided that gcd(a, b) == 1.
+a and b, and coefficients such that a * cA + b * cB = gcd(a, b).
 Formatted as follows: [gcd, cA, cB]
 */
-
 int *euclidean_ext(int a, int b) {
 	int *arr = malloc(sizeof(int) * 3);
 	int s = 0;
@@ -147,4 +145,28 @@ int positive_residue(int a, int m) {
 	while(a < 0)
 		a += m;
 	return a;
+}
+
+/*
+Solves linear diophantine equations of the form
+a*x + b*y = c.  Note that gcd(a, b) must divide c if
+there is a solution to the equation.
+Returns an array if the equation was solved
+successfully.  Returns NULL if there is no solution.
+Returned arrays are of the form [x0, c1, y0, c2] and
+solutions are of the form x = x0 + c1*t, y = y0 +c2*t
+where t is any integer.
+*/
+int *solve_linear_diophantine(int a, int b, int c) {
+	int *arr = NULL;
+	int *e = euclidean_ext(a, b);
+	if(c % e[0] == 0) {
+		arr = malloc(sizeof(int) * 4);
+		arr[0] = e[1];
+		arr[2] = e[2];
+		arr[1] = b / e[0];
+		arr[3] = -a / e[0];
+	}
+
+	return arr;
 }

@@ -16,4 +16,17 @@ int *euclidean_ext(int a, int b);
 
 int positive_residue(int a, int m);
 
+int *solve_linear_diophantine(int a, int b, int c);
+
+/*
+Solves linear congruence equations of the form
+a*x cong. b (mod m). (macro)
+*/
+#define solve_linear_congruence(a, b, m) = ( mult_inv( (a), (m) ) * (b) )
+
+/*
+Converts a to a positive least residue mod m
+*/
+#define positive_least_residue(a, m) = ( positive_residue( (a), (m) ) % (m) )
+
 #endif
