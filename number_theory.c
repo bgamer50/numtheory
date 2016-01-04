@@ -285,3 +285,24 @@ int solve_linear_congruence(int a, int b, int m) {
 	else
 		return s[0];
 }
+
+
+/*
+Finds the order of a mod m, provided gcd(a,m) = 1.
+Primes and powers are formatted as in phi.  Returns
+-1 if a and m are not coprime.
+*/
+int order(int a, int m, int *primes, int *powers) {
+	int p;
+	int d = gcd(a, m);
+	int k;
+
+	if(d != 1)
+		return -1;
+	
+	p = phi(primes, powers);
+	for(k = 1; k < p; k++)
+		if(p % k == 0 && (int)pow(a, k) % m == 1)
+			return k;
+	return p;
+}
