@@ -218,3 +218,54 @@ int legendre_prime(long p, long q) {
 	else
 		return neg * n;
 }
+
+/*
+Computes the sigma function, which is
+equal to the sum of positive divisors
+of n.  Primes is formatted as follows:
+[p1, p2...NULL]; Powers is formatted as
+follows: [k1, k2...NULL] where n
+= p1^k1 * p2^k2 * p3^k3...
+*/
+int sigma(int *primes, int *powers) {
+	int k = 0;
+	int s = 1;
+	while(primes[k] != NULL) {
+		s *= pow(primes[k], powers[k] + 1) / (powers[k] - 1);
+		k++;
+	}
+
+	return s;
+}
+
+/*
+Computes the tau function, which is equal to
+the number of positive divisors of n.  Powers
+is formatted as follows: [k1, k2...NULL] where
+n = p1^k1 * p2^k2...
+*/
+int tau(int *powers) {
+	int k = 0;
+	int t = 1;
+	while(powers[k] != NULL) {
+		t *= powers[k] + 1;
+		k++;
+	}
+
+}
+
+/*
+Computes the phi function, which is equal
+to the number of coprime numbers less
+than n.  Primes is formatted as follows:
+[p1, p2...NULL]; Powers is formatted as follows:
+[k1, k2...NULL] where n = p1^k1 * p2^k2...
+*/
+int phi(int *primes, int *powers) {
+	int k = 0;
+	int t = 1;
+	while(primes[k] != NULL) {
+		t *= pow(primes[k], powers[k]) * (1 - (1.0 / primes[k]));
+		k++;
+	}
+}
