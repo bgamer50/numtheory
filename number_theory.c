@@ -162,8 +162,8 @@ int *solve_linear_diophantine(int a, int b, int c) {
 	int *e = euclidean_ext(a, b);
 	if(c % e[0] == 0) {
 		arr = malloc(sizeof(int) * 4);
-		arr[0] = e[1];
-		arr[2] = e[2];
+		arr[0] = e[1] * c / e[0];
+		arr[2] = e[2] * c / e[0];
 		arr[1] = b / e[0];
 		arr[3] = -a / e[0];
 	}
