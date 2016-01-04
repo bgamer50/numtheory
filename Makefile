@@ -1,4 +1,4 @@
-tests: tests/coprime_check_test_cases.x tests/crt_test_cases.x tests/euclidean_ext_test_cases.x tests/gcd_test_cases.x tests/mult_inv_test_cases.x tests/solve_linear_diophantine_test_cases.x tests/legendre_test_cases.x tests/tau_phi_sigma_test_cases.x tests/solve_linear_congruence_test_cases.x tests/order_test_cases.x
+tests: tests/coprime_check_test_cases.x tests/crt_test_cases.x tests/euclidean_ext_test_cases.x tests/gcd_test_cases.x tests/mult_inv_test_cases.x tests/solve_linear_diophantine_test_cases.x tests/legendre_test_cases.x tests/tau_phi_sigma_test_cases.x tests/solve_linear_congruence_test_cases.x tests/order_test_cases.x tests/primitive_root_test_cases.x
 tests/coprime_check_test_cases.x: number_theory.o tests/coprime_check_test_cases.o
 	gcc number_theory.o tests/coprime_check_test_cases.o -o tests/coprime_check_test_cases.x
 
@@ -28,6 +28,9 @@ tests/solve_linear_congruence_test_cases.x: number_theory.o tests/solve_linear_c
 
 tests/order_test_cases.x: number_theory.o tests/order_test_cases.o
 	gcc number_theory.o tests/order_test_cases.o -o tests/order_test_cases.x
+
+tests/primitive_root_test_cases.x: number_theory.o tests/primitive_root_test_cases.o
+	gcc number_theory.o tests/primitive_root_test_cases.o -o tests/primitive_root_test_cases.x
 
 
 tests/coprime_check_test_cases.o: number_theory.o tests/coprime_check_test_cases.c
@@ -59,6 +62,9 @@ tests/solve_linear_congruence_test_cases.o: tests/solve_linear_congruence_test_c
 
 tests/order_test_cases.o: tests/order_test_cases.c
 	gcc -c tests/order_test_cases.c -o tests/order_test_cases.o
+
+tests/primitive_root_test_cases.o: tests/primitive_root_test_cases.c
+	gcc -c tests/primitive_root_test_cases.c -o tests/primitive_root_test_cases.o
 
 number_theory.o: number_theory.c number_theory.h
 	gcc -c number_theory.c -o number_theory.o

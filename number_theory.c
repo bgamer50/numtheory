@@ -289,7 +289,7 @@ int solve_linear_congruence(int a, int b, int m) {
 
 /*
 Finds the order of a mod m, provided gcd(a,m) = 1.
-Primes and powers are formatted as in phi.  Returns
+Primes and powers of m are formatted as in phi.  Returns
 -1 if a and m are not coprime.
 */
 int order(int a, int m, int *primes, int *powers) {
@@ -305,4 +305,67 @@ int order(int a, int m, int *primes, int *powers) {
 		if(p % k == 0 && (int)pow(a, k) % m == 1)
 			return k;
 	return p;
+}
+
+/*
+Finds a single primitive root mod m if one exists.
+Primes and powers of m are formatted as in phi.
+Returns -1 if there are no primitive roots.
+*/
+int primitive_root(int m, int *primes, int *powers) {
+	int p, k, a;
+	int f = 0;
+
+	p = phi(primes, powers);
+	for(a = 2; a < m; a++) {
+		if(gcd(a, m) == 1) {
+			f = 0;
+			for(k = 2; k < p; k++) {
+				if(p % k == 0 && (unsigned long)pow(a, k) % m == 1) {
+					f = 1;
+					break;
+				}
+			}
+			if(f == 0) {
+				return a;
+			}
+		}
+	}
+	return -1;
+}
+
+/*
+Finds all primitive roots mod m if any exist.
+Primes and powers of m are formatted as in phi.
+Returns NULL if there are no primitive roots.
+Array is terminated by -1.
+*/
+int *all_primitive_roots(int m, int *primes, int *powers) {
+	int k, i = 1;
+	int p = phi(primes, powers);
+	int *roots = malloc(sizeof(int) * 10);
+	int arr_size = 10;
+
+	roots[0] = primitive_root(m, primes, powers);
+	if(roots[0] == -1) {
+		free(roots);
+		return NULL;
+	}
+
+	for(k = 2; k < p; k++) {
+		if(gcd(k, p) == 1) {
+			if(i == arr_size - 1) {
+				roots = realloc(roots, sizeof(int) * (arr_size + 10));
+				arr_size += 10;
+			}
+			roots[i] = (int)pow(roots[0], k) % m;
+			i++;
+		}
+	}
+
+	if(i == arr_size - 1)
+		roots = realloc(roots, sizeof(int) * (arr_size + 1));
+	roots[i] = -1;
+
+	return roots;
 }

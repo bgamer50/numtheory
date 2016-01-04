@@ -30,6 +30,10 @@ int solve_linear_congruence(int a, int b, int m);
 
 int order(int a, int m, int *primes, int *powers);
 
+int primitive_root(int m, int *primes, int *powers);
+
+int *all_primitive_roots(int m, int *primes, int *powers);
+
 /*
 Converts a to a positive least residue mod m
 */
