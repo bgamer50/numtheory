@@ -18,6 +18,8 @@ int positive_residue(int a, int m);
 
 int *solve_linear_diophantine(int a, int b, int c);
 
+int legendre(long a, long p);
+
 /*
 Solves linear congruence equations of the form
 a*x cong. b (mod m). (macro)

@@ -9,14 +9,14 @@ The finished version of this project will hopefully be a Python library of Numbe
 		* Coprime Checker
 		* Extended Euclidean Algorithm
 		* Positive Residue Converter
-	2. Demonstration of Advanced Functions
+	2. Advanced Functions
 		* Chinese Remainder Theorem Decompose (crt_decompose)
 		* Chinese Remainder Theorem Reconstruct (crt_reconstruct)
+		* Solve Linear Diophantine Equations
+		* Solve Linear Congruence Equations
 
 ## To-Do:
 	1. More Advanced Functions
-		* Solve Linear Diophantine Equations
-		* Solve Linear Congruence Equations
 		* Find φ(n), Τ(n), σ(n) Given Prime Factorizations
 		* Find the Order of a Number Mod m
 		* Find Primitive Roots Given Prime Factorizations

@@ -1,4 +1,5 @@
 #include "number_theory.h"
+#include <math.h>
 #include <stdlib.h>
 /*The Chinese Remainder Theorem*/
 /*
@@ -169,4 +170,51 @@ int *solve_linear_diophantine(int a, int b, int c) {
 	}
 
 	return arr;
+}
+
+/*
+Evaluates the legendre symbol (a/p).  Note that
+p must be an odd prime.  Returns 1 if a is a
+quadratic residue mod p, -1 if a is not a quadratic
+residue mod p.  May fail in cases of overflow; in
+this case behavior is undefined.
+*/
+int legendre(long a, long p) {
+	long n;
+
+	a = a % p;
+	n = pow(a, (p - 1) / 2);
+	n = n % p;
+	if(n != 1)
+		return n - p;
+	else
+		return n;
+}
+
+/*
+More reliable version of legendre that requires
+that both numbers are prime.  Returns 1 if a is a
+quadratic residue mod p, -1 if a is not a quadratic
+residue mod p.  May fail in cases of overflow; in
+this case behavior is undefined.
+*/
+int legendre_prime(long p, long q) {
+	long n;
+	int neg = 1;
+
+	if(p < q) {
+		if(p % 4 == 3 && q % 4 == 3)
+			neg = -1;
+		n = q;
+		q = p;
+		p = n;
+	}
+
+	p = p % q;
+	n = pow(p, (q - 1) / 2);
+	n = n % q;
+	if(n != 1)
+		return neg * (n - q);
+	else
+		return neg * n;
 }
