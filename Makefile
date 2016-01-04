@@ -1,4 +1,4 @@
-tests: tests/coprime_check_test_cases.x tests/crt_test_cases.x tests/euclidean_ext_test_cases.x tests/gcd_test_cases.x tests/mult_inv_test_cases.x tests/solve_linear_diophantine_test_cases.x tests/legendre_test_cases.x
+tests: tests/coprime_check_test_cases.x tests/crt_test_cases.x tests/euclidean_ext_test_cases.x tests/gcd_test_cases.x tests/mult_inv_test_cases.x tests/solve_linear_diophantine_test_cases.x tests/legendre_test_cases.x tests/tau_phi_sigma_test_cases.x
 tests/coprime_check_test_cases.x: number_theory.o tests/coprime_check_test_cases.o
 	gcc number_theory.o tests/coprime_check_test_cases.o -o tests/coprime_check_test_cases.x
 
@@ -19,6 +19,9 @@ tests/solve_linear_diophantine_test_cases.x: number_theory.o tests/solve_linear_
 
 tests/legendre_test_cases.x: number_theory.o tests/legendre_test_cases.o
 	gcc number_theory.o tests/legendre_test_cases.o -o tests/legendre_test_cases.x
+
+tests/tau_phi_sigma_test_cases.x: number_theory.o tests/tau_phi_sigma_test_cases.o
+	gcc number_theory.o tests/tau_phi_sigma_test_cases.o -o tests/tau_phi_sigma_test_cases.x
 
 
 tests/coprime_check_test_cases.o: number_theory.o tests/coprime_check_test_cases.c
@@ -41,6 +44,9 @@ tests/solve_linear_diophantine_test_cases.o: tests/solve_linear_diophantine_test
 
 tests/legendre_test_cases.o: tests/legendre_test_cases.c
 	gcc -c tests/legendre_test_cases.c -o tests/legendre_test_cases.o
+
+tests/tau_phi_sigma_test_cases.o: tests/tau_phi_sigma_test_cases.c
+	gcc -c tests/tau_phi_sigma_test_cases.c -o tests/tau_phi_sigma_test_cases.o
 
 number_theory.o: number_theory.c number_theory.h
 	gcc -c number_theory.c -o number_theory.o

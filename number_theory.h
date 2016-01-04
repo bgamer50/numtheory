@@ -20,6 +20,12 @@ int *solve_linear_diophantine(int a, int b, int c);
 
 int legendre(long a, long p);
 
+int tau(int *powers);
+
+int phi(int *primes, int *powers);
+
+int sigima(int *primes, int *powers);
+
 /*
 Solves linear congruence equations of the form
 a*x cong. b (mod m). (macro)
