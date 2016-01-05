@@ -22,5 +22,5 @@ static PyMethodDef module_methods[] = {
 Initialization Function
 */
 PyMODINIT_FUNC initnumtheory() {
-	Py_InitModule3("numtheory", module_methods, "Number Theory");
+	Py_InitModule3("gcd", module_methods, "Greatest Common Divisor");
 }
