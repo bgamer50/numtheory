@@ -20,18 +20,17 @@ The finished version of this project will hopefully be a Python library of Numbe
 		* Find Primitive Roots Given Prime Factorizations
 
 ## To-Do:
-	1. More Advanced Functions
-		* ???
-	2. More Basic Functions
-		* Some Functions needed for advanced functions
-		* Other Basic Functions
-	3. Python Librarification
+	1. Python Librarification
 		* Basic importable library
 		* Proper installable library
-	4. Really Cool Stuff
+	2. Really Cool Stuff
 		* More CRT fun
 		* Better Legendre
 		* Objects???
+		* ???
+	3. More Advanced Functions
+		* ???
+	4. More Basic Functions
 		* ???
 	5. Documentation
 		* Advanced functions (i.e. crt_decompose)
