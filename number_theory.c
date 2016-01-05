@@ -183,8 +183,7 @@ int legendre(long a, long p) {
 	long n;
 
 	a = a % p;
-	n = pow(a, (p - 1) / 2);
-	n = n % p;
+	n = pow_mod(a, (p - 1) / 2, p);
 	if(n != 1)
 		return n - p;
 	else
@@ -211,8 +210,7 @@ int legendre_prime(long p, long q) {
 	}
 
 	p = p % q;
-	n = pow(p, (q - 1) / 2);
-	n = n % q;
+	n = pow_mod(p, (q - 1) / 2, q);
 	if(n != 1)
 		return neg * (n - q);
 	else
