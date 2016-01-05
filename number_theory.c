@@ -302,7 +302,7 @@ int order(int a, int m, int *primes, int *powers) {
 	
 	p = phi(primes, powers);
 	for(k = 1; k < p; k++)
-		if(p % k == 0 && (int)pow(a, k) % m == 1)
+		if(p % k == 0 && pow_mod(a, k, m) == 1)
 			return k;
 	return p;
 }
@@ -321,7 +321,7 @@ int primitive_root(int m, int *primes, int *powers) {
 		if(gcd(a, m) == 1) {
 			f = 0;
 			for(k = 2; k < p; k++) {
-				if(p % k == 0 && (unsigned long)pow(a, k) % m == 1) {
+				if(p % k == 0 && pow_mod(a, k, m) == 1) {
 					f = 1;
 					break;
 				}
@@ -358,7 +358,7 @@ int *all_primitive_roots(int m, int *primes, int *powers) {
 				roots = realloc(roots, sizeof(int) * (arr_size + 10));
 				arr_size += 10;
 			}
-			roots[i] = (int)pow(roots[0], k) % m;
+			roots[i] = pow_mod(roots[0], k, m);
 			i++;
 		}
 	}
@@ -368,4 +368,23 @@ int *all_primitive_roots(int m, int *primes, int *powers) {
 	roots[i] = -1;
 
 	return roots;
+}
+
+/*
+Computes y^x mod m.  Used to reduce overflow.
+*/
+unsigned long pow_mod(unsigned long y, unsigned long x, unsigned long m) {
+	unsigned long r = 1;
+	if(x % 2 != 0) {
+		r = y;
+		x--;
+	}
+
+	while(x > 0) {
+		r *= y * y;
+		r %= m;
+		x -= 2;
+	}
+
+	return r;
 }

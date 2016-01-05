@@ -34,6 +34,8 @@ int primitive_root(int m, int *primes, int *powers);
 
 int *all_primitive_roots(int m, int *primes, int *powers);
 
+unsigned long pow_mod(unsigned long y, unsigned long x, unsigned long m);
+
 /*
 Converts a to a positive least residue mod m
 */

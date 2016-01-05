@@ -15,8 +15,13 @@ int main(void) {
 	int powers2[] = {1, 0};
 	int r2[] = {2, 6, 7, 11, -1};
 
+	int primes3[] = {23, 2, 0};
+	int powers3[] = {1, 1, 0};
+	int r3[] = {5, 7, 11, 15, 17, 19, 21, 33, 37, 43, -1};
+
 	check(12, primes1, powers1, r1);
 	check(13, primes2, powers2, r2);
+	check(46, primes3, powers3, r3);
 }
 
 int check(int a, int *primes, int *powers, int *r) {
