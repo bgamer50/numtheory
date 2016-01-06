@@ -11,6 +11,24 @@ static PyObject *numtheory_gcd(PyObject *self, PyObject *args) {
 }
 
 /*
+
+*/
+static PyObject *numtheory_crt_decompose(PyObject *self, PyObject *args) {
+	int i, k, *mods, mods_length;
+	PyObject *obj, *item;
+	if(!PyArgParseTuple(args, "iO"), &i, obj)
+		return NULL;
+	mods_length = PyTupleSize(obj);
+
+	mods = malloc(sizeof(int) * mods_length);
+	for(k = 0; k < mods_length; k++) {
+		item = PyTuple_GetItem(obj, k);
+		if(!PyInt_Check(item))
+			return NULL;
+		mods[k] = (int)item;
+	}
+}
+/*
 Method table
 */
 static PyMethodDef module_methods[] = {
