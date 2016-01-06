@@ -15,7 +15,7 @@ the moduli are not comprime.
 int* crt_decompose(int i, int* mods, int mods_length) {
 	unsigned int k;
 	int* decomp;
-	if(!comprime_check(mods))
+	if(!coprime_check(mods, mods_length))
 		return NULL;
 
 	decomp = malloc(sizeof(int) * mods_length);

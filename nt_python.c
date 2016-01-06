@@ -1,5 +1,6 @@
 #include <Python.h>
 #include "number_theory.h"
+
 /*
 GCD Definition
 */
@@ -15,14 +16,19 @@ CRT_DECOMPOSE Definition
 */
 static PyObject *numtheory_crt_decompose(PyObject *self, PyObject *args) {
 	int i, k, *mods, mods_length, *decomp;
-	PyObject *obj, *item, *decomp_tuple;
-	if(!PyArg_ParseTuple(args, "iO", &i, obj))
-		return NULL;
-	mods_length = PyTupleSize(obj);
+	PyObject *obj, *item, *decomp_list;
+	obj = malloc(sizeof(PyObject));	
 
+	if(!PyArg_ParseTuple(args, "iO", &i, &obj))
+		return NULL;
+	if(!PyList_Check(obj))
+		return NULL;
+
+	mods_length = PyList_Size(obj);
 	mods = malloc(sizeof(int) * mods_length);
+
 	for(k = 0; k < mods_length; k++) {
-		item = PyTuple_GetItem(obj, k);
+		item = PyList_GetItem(obj, k);
 		if(!PyInt_Check(item))
 			return NULL;
 		mods[k] = (int)PyInt_AsLong(item);
@@ -32,11 +38,11 @@ static PyObject *numtheory_crt_decompose(PyObject *self, PyObject *args) {
 	if(decomp == NULL)
 		return NULL;
 
-	decomp_tuple = PyTuple_New(mods_length);
+	decomp_list = PyList_New(mods_length);
 	for(k = 0; k < mods_length; k++)
-		PyTuple_SET_ITEM(decomp_tuple, k, PyInt_FromLong((long)decomp[k]));
+		PyList_SET_ITEM(decomp_list, (Py_ssize_t)k, PyInt_FromLong((long)decomp[k]));
 
-	return decom_tuple;
+	return decomp_list;
 }
 /*
 Method table
