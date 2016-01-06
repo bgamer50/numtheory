@@ -44,12 +44,49 @@ static PyObject *numtheory_crt_decompose(PyObject *self, PyObject *args) {
 
 	return decomp_list;
 }
+
+/*
+CRT_RECONSTRUCT Definition
+*/
+static PyObject *numtheory_crt_reconstruct(PyObject *self, PyObject *args) {
+	int *eq, *mods, mods_length, k, r;
+	PyObject *eq_list, *mod_list, *item;
+	eq_list = malloc(sizeof(PyObject));
+	mod_list = malloc(sizeof(PyObject));
+
+	if(!PyArg_ParseTuple(args, OO, &eq_list, &mods_list))
+		return NULL;
+	if(!PyList_Check(mod_list) || !PyList_Check(eq_list))
+		return NULL;
+
+	mods_length = PyList_Size(mod_list);
+	if(mods_length != PyList_Size(eq_list))
+		return NULL;
+	mods = malloc(sizeof(int) * mods_length);
+	eq = malloc(sizeof(int) * mods_length);
+
+	for(k = 0; k < mods_length; k++) {
+		item = PyList_GetItem(mods_list, k);
+		if(!PyInt_Check(item))
+			return NULL;
+		mods[k] = (int)PyInt_AsLong(item);
+
+		item = PyList_GetItem(eq_list, k);
+		if(!PyInt_Check(item))
+			return NULL;
+		eq[k] = (int)PyInt_AsLong(item);
+	}
+
+	return Py_BuildValue("i", crt_reconstruct(eq, mods, mods_length));
+}
+
 /*
 Method table
 */
 static PyMethodDef numtheory_methods[] = {
 	{"gcd", (PyCFunction)numtheory_gcd, METH_VARARGS, "Compute the Greatest Common Divisor."},
 	{"crt_decompose", (PyCFunction)numtheory_crt_decompose, METH_VARARGS, "Decompose a Natural Number with the Chinese Remainder Theorem."},
+	{"crt_reconstruct", (PyCFunction)numtheory_crt_reconstruct, METH_VARARGS, "Reconstruct a Natural Number with the Chinese Remainder Theorem."},
 	{NULL, NULL, 0, NULL}
 };
 
