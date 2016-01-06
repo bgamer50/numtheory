@@ -16,7 +16,7 @@ static PyObject *numtheory_gcd(PyObject *self, PyObject *args) {
 static PyObject *numtheory_crt_decompose(PyObject *self, PyObject *args) {
 	int i, k, *mods, mods_length;
 	PyObject *obj, *item;
-	if(!PyArgParseTuple(args, "iO"), &i, obj)
+	if(!PyArg_ParseTuple(args, "iO", &i, obj))
 		return NULL;
 	mods_length = PyTupleSize(obj);
 
