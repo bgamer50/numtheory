@@ -27,6 +27,8 @@ static PyObject *numtheory_crt_decompose(PyObject *self, PyObject *args) {
 			return NULL;
 		mods[k] = (int)item;
 	}
+
+	return NULL;
 }
 /*
 Method table
