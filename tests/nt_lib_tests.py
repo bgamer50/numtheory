@@ -1,3 +1,3 @@
 import numtheory
 
-print(dir(numtheory))
+print(numtheory.gcd(3, 9))

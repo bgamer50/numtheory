@@ -13,14 +13,14 @@ static PyObject *numtheory_gcd(PyObject *self, PyObject *args) {
 /*
 Method table
 */
-static PyMethodDef module_methods[] = {
-	{"gcd", (PyCFunction)numtheory_gcd, METH_VARARGS, NULL},
+static PyMethodDef numtheory_methods[] = {
+	{"gcd", (PyCFunction)numtheory_gcd, METH_VARARGS, "Compute the Greatest Common Divisor."},
 	{NULL, NULL, 0, NULL}
 };
 
 /*
 Initialization Function
 */
-PyMODINIT_FUNC initnumtheory() {
-	Py_InitModule3("gcd", module_methods, "Greatest Common Divisor");
+PyMODINIT_FUNC initnumtheory(void) {
+	(void)Py_InitModule("numtheory", numtheory_methods);
 }
