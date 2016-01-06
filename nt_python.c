@@ -11,11 +11,11 @@ static PyObject *numtheory_gcd(PyObject *self, PyObject *args) {
 }
 
 /*
-
+CRT_DECOMPOSE Definition
 */
 static PyObject *numtheory_crt_decompose(PyObject *self, PyObject *args) {
-	int i, k, *mods, mods_length;
-	PyObject *obj, *item;
+	int i, k, *mods, mods_length, *decomp;
+	PyObject *obj, *item, *decomp_tuple;
 	if(!PyArg_ParseTuple(args, "iO", &i, obj))
 		return NULL;
 	mods_length = PyTupleSize(obj);
@@ -25,16 +25,25 @@ static PyObject *numtheory_crt_decompose(PyObject *self, PyObject *args) {
 		item = PyTuple_GetItem(obj, k);
 		if(!PyInt_Check(item))
 			return NULL;
-		mods[k] = (int)item;
+		mods[k] = (int)PyInt_AsLong(item);
 	}
 
-	return NULL;
+	decomp = crt_decompose(i, mods, mods_length);
+	if(decomp == NULL)
+		return NULL;
+
+	decomp_tuple = PyTuple_New(mods_length);
+	for(k = 0; k < mods_length; k++)
+		PyTuple_SET_ITEM(decomp_tuple, k, PyInt_FromLong((long)decomp[k]));
+
+	return decom_tuple;
 }
 /*
 Method table
 */
 static PyMethodDef numtheory_methods[] = {
 	{"gcd", (PyCFunction)numtheory_gcd, METH_VARARGS, "Compute the Greatest Common Divisor."},
+	{"crt_decompose", (PyCFunction)numtheory_crt_decompose, METH_VARARGS, "Decompose a Natural Number with the Chinese Remainder Theorem."},
 	{NULL, NULL, 0, NULL}
 };
 

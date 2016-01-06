@@ -9,12 +9,16 @@ now, I have nothing since my nice documentation got deleted.
 */
 
 /*
-Takes an int i to decompose with the given moduli.
+Takes an int i to decompose with the given moduli.  Returns NULL if
+the moduli are not comprime.
 */
 int* crt_decompose(int i, int* mods, int mods_length) {
-	//coprime_check(mods);
 	unsigned int k;
-	int* decomp = malloc(sizeof(int) * mods_length);
+	int* decomp;
+	if(!comprime_check(mods))
+		return NULL;
+
+	decomp = malloc(sizeof(int) * mods_length);
 	
 	for(k = 0; k < mods_length; k++)
 		decomp[k] = i % mods[k];
