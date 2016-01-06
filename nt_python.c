@@ -49,12 +49,12 @@ static PyObject *numtheory_crt_decompose(PyObject *self, PyObject *args) {
 CRT_RECONSTRUCT Definition
 */
 static PyObject *numtheory_crt_reconstruct(PyObject *self, PyObject *args) {
-	int *eq, *mods, mods_length, k, r;
+	int *eq, *mods, mods_length, k;
 	PyObject *eq_list, *mod_list, *item;
 	eq_list = malloc(sizeof(PyObject));
 	mod_list = malloc(sizeof(PyObject));
 
-	if(!PyArg_ParseTuple(args, OO, &eq_list, &mods_list))
+	if(!PyArg_ParseTuple(args, "OO", &eq_list, &mod_list))
 		return NULL;
 	if(!PyList_Check(mod_list) || !PyList_Check(eq_list))
 		return NULL;
@@ -66,7 +66,7 @@ static PyObject *numtheory_crt_reconstruct(PyObject *self, PyObject *args) {
 	eq = malloc(sizeof(int) * mods_length);
 
 	for(k = 0; k < mods_length; k++) {
-		item = PyList_GetItem(mods_list, k);
+		item = PyList_GetItem(mod_list, k);
 		if(!PyInt_Check(item))
 			return NULL;
 		mods[k] = (int)PyInt_AsLong(item);
