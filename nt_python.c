@@ -84,11 +84,11 @@ static PyObject *numtheory_crt_reconstruct(PyObject *self, PyObject *args) {
 COPRIME_CHECK Definition
 */
 static PyObject *numtheory_coprime_check(PyObject *self, PyObject *args) {
-	int *a, a_length;
-	PyObject *a_list;
+	int *a, a_length, k;
+	PyObject *a_list, *item;
 	a_list = malloc(sizeof(PyObject));
 
-	if(!PyArg_ParseTuple(args, "O"), &a_list)
+	if(!PyArg_ParseTuple(args, "O", &a_list))
 		return NULL;
 	if(!PyList_Check(a_list))
 		return NULL;
@@ -102,7 +102,7 @@ static PyObject *numtheory_coprime_check(PyObject *self, PyObject *args) {
 		a[k] = (int)PyInt_AsLong(item);
 	}
 
-	return Py_BuildValue("b", coprime_check(a, a_length)) ? (Py_True : Py_False);
+	return coprime_check(a, a_length) ? Py_True : Py_False;
 }
 
 /*
