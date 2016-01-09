@@ -205,7 +205,7 @@ static PyObject *numtheory_tau(PyObject *self, PyObject *args) {
 		return NULL;
 
 	powers_length = PyList_Size(powers_list);
-	powers = malloc(sizeof(int) * powers_length);
+	powers = malloc(sizeof(int) * (powers_length + 1));
 
 	for(k = 0; k < powers_length; k++) {
 		item = PyList_GetItem(powers_list, k);
@@ -213,6 +213,7 @@ static PyObject *numtheory_tau(PyObject *self, PyObject *args) {
 			return NULL;
 		powers[k] = (int)PyInt_AsLong(item);
 	}
+	powers[powers_length] = 0;
 
 	return Py_BuildValue("i", tau(powers));
 }
@@ -230,10 +231,10 @@ static PyObject *numtheory_phi(PyObject *self, PyObject *args) {
 		return NULL;
 
 	powers_length = PyList_Size(powers_list);
-	powers = malloc(sizeof(int) * powers_length);
+	powers = malloc(sizeof(int) * (powers_length + 1));
 	if(PyList_Size(primes_list) != powers_length)
 		return NULL;
-	primes = malloc(sizeof(int) * powers_length);
+	primes = malloc(sizeof(int) * (powers_length + 1));
 
 
 	for(k = 0; k < powers_length; k++) {
@@ -247,6 +248,7 @@ static PyObject *numtheory_phi(PyObject *self, PyObject *args) {
 			return NULL;
 		primes[k] = (int)PyInt_AsLong(item);
 	}
+	primes[powers_length] = powers[powers_length] = 0;
 
 	return Py_BuildValue("i", phi(primes, powers));
 }
@@ -264,10 +266,10 @@ static PyObject *numtheory_sigma(PyObject *self, PyObject *args) {
 		return NULL;
 
 	powers_length = PyList_Size(powers_list);
-	powers = malloc(sizeof(int) * powers_length);
+	powers = malloc(sizeof(int) * (powers_length + 1));
 	if(PyList_Size(primes_list) != powers_length)
 		return NULL;
-	primes = malloc(sizeof(int) * powers_length);
+	primes = malloc(sizeof(int) * (powers_length + 1));
 
 
 	for(k = 0; k < powers_length; k++) {
@@ -281,8 +283,141 @@ static PyObject *numtheory_sigma(PyObject *self, PyObject *args) {
 			return NULL;
 		primes[k] = (int)PyInt_AsLong(item);
 	}
+	primes[powers_length] = powers[powers_length] = 0;
 
 	return Py_BuildValue("i", sigma(primes, powers));
+}
+
+/*
+SOLVE_LINEAR_CONGRUENCE Definition
+*/
+static PyObject *numtheory_solve_linear_congruence(PyObject *self, PyObject *args) {
+	int a, b, m;
+
+	if(!PyArg_ParseTuple(args, "iii", &a, &b, &m))
+		return NULL;
+
+	return Py_BuildValue("i", solve_linear_congruence(a, b, m));
+}
+
+/*
+ORDER Definition
+*/
+static PyObject *numtheory_order(PyObject *self, PyObject *args) {
+	int a, m, *primes, *powers, k;
+	PyObject *primes_list, *powers_list, *item;
+
+	if(!PyArg_ParseTuple(args), "OO", &primes_list, &powers_list)
+		return NULL;
+	if(!PyList_Check(powers_list) || !PyList_Check(primes_list))
+		return NULL;
+
+	powers_length = PyList_Size(powers_list);
+	powers = malloc(sizeof(int) * (powers_length + 1));
+	if(PyList_Size(primes_list) != powers_length)
+		return NULL;
+	primes = malloc(sizeof(int) * (powers_length + 1));
+
+	for(k = 0; k < powers_length; k++) {
+		item = PyList_GetItem(powers_list, k);
+		if(!PyInt_Check(item))
+			return NULL;
+		powers[k] = (int)PyInt_AsLong(item);
+
+		item = PyList_GetItem(primes_list, k);
+		if(!PyInt_Check(item))
+			return NULL;
+		primes[k] = (int)PyInt_AsLong(item);
+	}
+	primes[powers_length] = powers[powers_length] = 0;
+
+	return Py_BuildValue("i", order(a, m, primes, powers));
+}
+
+/*
+PRIMITIVE_ROOT Definition
+*/
+static PyObject *numtheory_primitive_root(PyObject *self, PyObject *args) {
+	int a, m, *primes, *powers, k;
+	PyObject *primes_list, *powers_list, *item;
+
+	if(!PyArg_ParseTuple(args), "OO", &primes_list, &powers_list)
+		return NULL;
+	if(!PyList_Check(powers_list) || !PyList_Check(primes_list))
+		return NULL;
+
+	powers_length = PyList_Size(powers_list);
+	powers = malloc(sizeof(int) * (powers_length + 1));
+	if(PyList_Size(primes_list) != powers_length)
+		return NULL;
+	primes = malloc(sizeof(int) * (powers_length + 1));
+
+	for(k = 0; k < powers_length; k++) {
+		item = PyList_GetItem(powers_list, k);
+		if(!PyInt_Check(item))
+			return NULL;
+		powers[k] = (int)PyInt_AsLong(item);
+
+		item = PyList_GetItem(primes_list, k);
+		if(!PyInt_Check(item))
+			return NULL;
+		primes[k] = (int)PyInt_AsLong(item);
+	}
+	primes[powers_length] = powers[powers_length] = 0;
+
+	return Py_BuildValue("i", primitive_root(a, m, primes, powers));
+}
+
+/*
+ALL_PRIMITIVE_ROOTS Definition
+*/
+static PyObject *numtheory_all_primitive_roots(PyObject *self, PyObject *args) {
+	int a, m, *primes, *powers, *roots, k;
+	PyObject *primes_list, *powers_list, *roots_list, *item;
+
+	if(!PyArg_ParseTuple(args), "OO", &primes_list, &powers_list)
+		return NULL;
+	if(!PyList_Check(powers_list) || !PyList_Check(primes_list))
+		return NULL;
+
+	powers_length = PyList_Size(powers_list);
+	powers = malloc(sizeof(int) * (powers_length + 1));
+	if(PyList_Size(primes_list) != powers_length)
+		return NULL;
+	primes = malloc(sizeof(int) * (powers_length + 1));
+
+	for(k = 0; k < powers_length; k++) {
+		item = PyList_GetItem(powers_list, k);
+		if(!PyInt_Check(item))
+			return NULL;
+		powers[k] = (int)PyInt_AsLong(item);
+
+		item = PyList_GetItem(primes_list, k);
+		if(!PyInt_Check(item))
+			return NULL;
+		primes[k] = (int)PyInt_AsLong(item);
+	}
+	primes[powers_length] = powers[powers_length] = 0;
+
+	roots = all_primitive_roots(m, primes, powers);
+	roots_list = PyList_New((Py_ssize_t)0);
+	k = 0;
+	while(roots[k] != -1)
+		PyList_APPEND(roots_list, PyInt_FromLong((long)roots[k]));
+
+	return roots_list;
+}
+
+/*
+POW_MOD Definition
+*/
+static PyObject *numtheory_pow_mod(PyObject *self, PyObject *args) {
+	unsigned long y, x, m;
+
+	if(!PyArg_ParseTuple("kkk", &y, &x, &m))
+		return NULL;
+
+	return Py_BuildValue("k", pow_mod(y, x, m));
 }
 
 /*
@@ -302,6 +437,11 @@ static PyMethodDef numtheory_methods[] = {
 	{"tau", (PyCFunction)numtheory_tau, METH_VARARGS, "Find tau of a factored positive integer."},
 	{"phi", (PyCFunction)numtheory_phi, METH_VARARGS, "Find phi of a factored positive integer."},
 	{"sigma", (PyCFunction)numtheory_sigma, METH_VARARGS, "Find sigma of a factored positive integer."},
+	{"solve_linear_congruence", (PyCFunction)numtheory_solve_linear_congruence, METH_VARARGS, "Solve a Linear Congruence Equation."},
+	{"order", (PyCFunction)numtheory_order, METH_VARARGS, "Find the Order of a Number modulo m."},
+	{"primitive_root", (PyCFunction)numtheory_primitive_root, METH_VARARGS, "Find a Primitive Root modulo m."},
+	{"all_primitive_roots", (PyCFunction)numtheory_all_primitive_roots, METH_VARARGS, "Find all Primitive Roots modulo m."},
+	{"pow_mod", (PyCFunction)numtheory_pow_mod, METH_VARARGS, "Find a power modulo m."},
 	{NULL, NULL, 0, NULL}
 };
 
