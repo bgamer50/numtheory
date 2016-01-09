@@ -196,7 +196,7 @@ static PyObject *numtheory_legendre_prime(PyObject *self, PyObject *args) {
 TAU Definition
 */
 static PyObject *numtheory_tau(PyObject *self, PyObject *args) {
-	int *powers, power_length, k;
+	int *powers, powers_length, k;
 	PyObject *powers_list, *item;
 
 	if(!PyArg_ParseTuple(args, "O", &powers_list))
@@ -221,7 +221,7 @@ static PyObject *numtheory_tau(PyObject *self, PyObject *args) {
 PHI Definition
 */
 static PyObject *numtheory_phi(PyObject *self, PyObject *args) {
-	int *primes, *powers, power_length, k;
+	int *primes, *powers, powers_length, k;
 	PyObject *primes_list, *powers_list, *item;
 
 	if(!PyArg_ParseTuple(args, "OO", &primes_list, &powers_list))
@@ -231,7 +231,7 @@ static PyObject *numtheory_phi(PyObject *self, PyObject *args) {
 
 	powers_length = PyList_Size(powers_list);
 	powers = malloc(sizeof(int) * powers_length);
-	if(PyList_Size(prime_list) != powers_length)
+	if(PyList_Size(primes_list) != powers_length)
 		return NULL;
 	primes = malloc(sizeof(int) * powers_length);
 
@@ -255,7 +255,7 @@ static PyObject *numtheory_phi(PyObject *self, PyObject *args) {
 SIGMA Definition
 */
 static PyObject *numtheory_sigma(PyObject *self, PyObject *args) {
-	int *primes, *powers, power_length, k;
+	int *primes, *powers, powers_length, k;
 	PyObject *primes_list, *powers_list, *item;
 
 	if(!PyArg_ParseTuple(args, "OO", &primes_list, &powers_list))
@@ -265,7 +265,7 @@ static PyObject *numtheory_sigma(PyObject *self, PyObject *args) {
 
 	powers_length = PyList_Size(powers_list);
 	powers = malloc(sizeof(int) * powers_length);
-	if(PyList_Size(prime_list) != powers_length)
+	if(PyList_Size(primes_list) != powers_length)
 		return NULL;
 	primes = malloc(sizeof(int) * powers_length);
 
