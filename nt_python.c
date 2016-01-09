@@ -136,6 +136,39 @@ static PyObject *numtheory_euclidean_ext(PyObject *self, PyObject *args) {
 }
 
 /*
+POSITIVE_RESIDUE Definition
+*/
+static PyObject *numtheory_positive_residue(PyObject *self, PyObject *args) {
+	int a, m;
+	
+	if(!PyArg_ParseTuple(args, "ii", &a, &m))
+		return NULL;
+
+	return Py_BuildValue("i", positive_residue(a, m));
+}
+
+/*
+SOLVE_LINEAR_DIOPHANTINE Definition
+*/
+static PyObject *numtheory_solve_linear_diophantine(PyObject *self, PyObject *args) {
+	int a, b, c, k, *s;
+	PyObject *s_list;
+
+	if(!PyArg_ParseTuple(args, "iii"))
+		return NULL;
+
+	s = solve_linear_diophantine(a, b, c);
+	if(s == NULL)
+		return NULL;
+
+	s_list = PyList_New(4);
+	for(k = 0; k < 4; k++)
+		PyList_SET_ITEM(s_list, (Py_ssize_t)k, PyInt_FromLong((long)s[k]));
+
+	return s_list;
+}
+
+/*
 Method table
 */
 static PyMethodDef numtheory_methods[] = {
@@ -145,6 +178,8 @@ static PyMethodDef numtheory_methods[] = {
 	{"coprime_check", (PyCFunction)numtheory_coprime_check, METH_VARARGS, "Check if all numbers in a list are coprime to each other."},
 	{"mult_inv", (PyCFunction)numtheory_mult_inv, METH_VARARGS, "Find the Multiplicative Inverse of a Number a modulo m."},
 	{"euclidean_ext", (PyCFunction)numtheory_euclidean_ext, METH_VARARGS, "Get the results of the Extended Euclidean Algorithm on a and b."},
+	{"positive_residue", (PyCFunction)numtheory_positive_residue, METH_VARARGS, "Convert an Integer to a Positive Residue modulo m."},
+	{"solve_linear_diophantine", (PyCFunction)numtheory_solve_linear_diophantine, METH_VARARGS, "Solve a Linear Diophantine Equation."},
 	{NULL, NULL, 0, NULL}
 };
 
