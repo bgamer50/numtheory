@@ -405,8 +405,10 @@ static PyObject *numtheory_all_primitive_roots(PyObject *self, PyObject *args) {
 
 	roots_list = PyList_New((Py_ssize_t)0);
 	k = 0;
-	while(roots[k] != -1)
+	while(roots[k] != -1) {
 		PyList_Append(roots_list, PyInt_FromLong((long)roots[k]));
+		k++;
+	}
 
 	return roots_list;
 }
