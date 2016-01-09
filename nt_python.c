@@ -106,6 +106,36 @@ static PyObject *numtheory_coprime_check(PyObject *self, PyObject *args) {
 }
 
 /*
+MULT_INV Definition
+*/
+static PyObject *numtheory_mult_inv(PyObject *self, PyObject *args) {
+	int a, m;
+	
+	if(!PyArg_ParseTuple(args, "ii", &a, &m))
+		return NULL;
+
+	return Py_BuildValue("i", mult_inv(a, m));
+}
+
+/*
+EUCLIDEAN_EXT Definition
+*/
+static PyObject *numtheory_euclidean_ext(PyObject *self, PyObject *args) {
+	int a, b, *e, k;
+	PyObject *e_list;
+
+	if(!PyArg_ParseTuple(args, "ii", &a, &b))
+		return NULL;
+
+	e = euclidean_ext(a, b);
+	e_list = PyList_New(3);
+	for(k = 0; k < 3; k++)
+		PyList_SET_ITEM(e_list, (Py_ssize_t)k, PyInt_FromLong((long)e[k]));
+
+	return e_list;
+}
+
+/*
 Method table
 */
 static PyMethodDef numtheory_methods[] = {
@@ -113,6 +143,8 @@ static PyMethodDef numtheory_methods[] = {
 	{"crt_decompose", (PyCFunction)numtheory_crt_decompose, METH_VARARGS, "Decompose a Natural Number with the Chinese Remainder Theorem."},
 	{"crt_reconstruct", (PyCFunction)numtheory_crt_reconstruct, METH_VARARGS, "Reconstruct a Natural Number with the Chinese Remainder Theorem."},
 	{"coprime_check", (PyCFunction)numtheory_coprime_check, METH_VARARGS, "Check if all numbers in a list are coprime to each other."},
+	{"mult_inv", (PyCFunction)numtheory_mult_inv, METH_VARARGS, "Find the Multiplicative Inverse of a Number a modulo m."},
+	{"euclidean_ext", (PyCFunction)numtheory_euclidean_ext, METH_VARARGS, "Get the results of the Extended Euclidean Algorithm on a and b."},
 	{NULL, NULL, 0, NULL}
 };
 
