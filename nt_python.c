@@ -169,6 +169,123 @@ static PyObject *numtheory_solve_linear_diophantine(PyObject *self, PyObject *ar
 }
 
 /*
+LEGENDRE Definition
+*/
+static PyObject *numtheory_legendre(PyObject *self, PyObject *args) {
+	int a, p;
+
+	if(!PyArg_ParseTuple(args, "ii", &a, &p))
+		return NULL;
+
+	return Py_BuildValue("i", legendre(a, p));
+}
+
+/*
+LEGENDRE_PRIME Definition
+*/
+static PyObject *numtheory_legendre_prime(PyObject *self, PyObject *args) {
+	int p, q;
+
+	if(!PyArg_ParseTuple(args, "ii", &p, &q))
+		return NULL;
+
+	return Py_BuildValue("i", legendre_prime(p, q));
+}
+
+/*
+TAU Definition
+*/
+static PyObject *numtheory_tau(PyObject *self, PyObject *args) {
+	int *powers, power_length, k;
+	PyObject *powers_list, *item;
+
+	if(!PyArg_ParseTuple(args, "O", &powers_list))
+		return NULL;
+	if(!PyList_Check(powers_list))
+		return NULL;
+
+	powers_length = PyList_Size(powers_list);
+	powers = malloc(sizeof(int) * powers_length);
+
+	for(k = 0; k < powers_length; k++) {
+		item = PyList_GetItem(powers_list, k);
+		if(!PyInt_Check(item))
+			return NULL;
+		powers[k] = (int)PyInt_AsLong(item);
+	}
+
+	return Py_BuildValue("i", tau(powers));
+}
+
+/*
+PHI Definition
+*/
+static PyObject *numtheory_phi(PyObject *self, PyObject *args) {
+	int *primes, *powers, power_length, k;
+	PyObject *primes_list, *powers_list, *item;
+
+	if(!PyArg_ParseTuple(args, "OO", &primes_list, &powers_list))
+		return NULL;
+	if(!PyList_Check(powers_list) || !PyList_Check(primes_list))
+		return NULL;
+
+	powers_length = PyList_Size(powers_list);
+	powers = malloc(sizeof(int) * powers_length);
+	if(PyList_Size(prime_list) != powers_length)
+		return NULL;
+	primes = malloc(sizeof(int) * powers_length);
+
+
+	for(k = 0; k < powers_length; k++) {
+		item = PyList_GetItem(powers_list, k);
+		if(!PyInt_Check(item))
+			return NULL;
+		powers[k] = (int)PyInt_AsLong(item);
+
+		item = PyList_GetItem(primes_list, k);
+		if(!PyInt_Check(item))
+			return NULL;
+		primes[k] = (int)PyInt_AsLong(item);
+	}
+
+	return Py_BuildValue("i", phi(primes, powers));
+}
+
+/*
+SIGMA Definition
+*/
+static PyObject *numtheory_sigma(PyObject *self, PyObject *args) {
+	int *primes, *powers, power_length, k;
+	PyObject *primes_list, *powers_list, *item;
+
+	if(!PyArg_ParseTuple(args, "OO", &primes_list, &powers_list))
+		return NULL;
+	if(!PyList_Check(powers_list) || !PyList_Check(primes_list))
+		return NULL;
+
+	powers_length = PyList_Size(powers_list);
+	powers = malloc(sizeof(int) * powers_length);
+	if(PyList_Size(prime_list) != powers_length)
+		return NULL;
+	primes = malloc(sizeof(int) * powers_length);
+
+
+	for(k = 0; k < powers_length; k++) {
+		item = PyList_GetItem(powers_list, k);
+		if(!PyInt_Check(item))
+			return NULL;
+		powers[k] = (int)PyInt_AsLong(item);
+
+		item = PyList_GetItem(primes_list, k);
+		if(!PyInt_Check(item))
+			return NULL;
+		primes[k] = (int)PyInt_AsLong(item);
+	}
+
+	return Py_BuildValue("i", sigma(primes, powers));
+}
+
+/*
 Method table
 */
 static PyMethodDef numtheory_methods[] = {
@@ -180,6 +297,11 @@ static PyMethodDef numtheory_methods[] = {
 	{"euclidean_ext", (PyCFunction)numtheory_euclidean_ext, METH_VARARGS, "Get the results of the Extended Euclidean Algorithm on a and b."},
 	{"positive_residue", (PyCFunction)numtheory_positive_residue, METH_VARARGS, "Convert an Integer to a Positive Residue modulo m."},
 	{"solve_linear_diophantine", (PyCFunction)numtheory_solve_linear_diophantine, METH_VARARGS, "Solve a Linear Diophantine Equation."},
+	{"legendre", (PyCFunction)numtheory_legendre, METH_VARARGS, "Evaluate a Legendre Symbol where the lower value is prime."},
+	{"legendre_prime", (PyCFunction)numtheory_legendre_prime, METH_VARARGS, "Evaluate a Legendre Symbol where both values are prime."},
+	{"tau", (PyCFunction)numtheory_tau, METH_VARARGS, "Find tau of a factored positive integer."},
+	{"phi", (PyCFunction)numtheory_phi, METH_VARARGS, "Find phi of a factored positive integer."},
+	{"sigma", (PyCFunction)numtheory_sigma, METH_VARARGS, "Find sigma of a factored positive integer."},
 	{NULL, NULL, 0, NULL}
 };
 

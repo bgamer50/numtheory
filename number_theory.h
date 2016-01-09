@@ -20,6 +20,8 @@ int *solve_linear_diophantine(int a, int b, int c);
 
 int legendre(long a, long p);
 
+int legendre_prime(long p, long q);
+
 int tau(int *powers);
 
 int phi(int *primes, int *powers);
