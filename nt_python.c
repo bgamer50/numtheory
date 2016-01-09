@@ -154,7 +154,7 @@ static PyObject *numtheory_solve_linear_diophantine(PyObject *self, PyObject *ar
 	int a, b, c, k, *s;
 	PyObject *s_list;
 
-	if(!PyArg_ParseTuple(args, "iii"))
+	if(!PyArg_ParseTuple(args, "iii", &a, &b, &c))
 		return NULL;
 
 	s = solve_linear_diophantine(a, b, c);
