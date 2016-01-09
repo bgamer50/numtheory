@@ -304,10 +304,10 @@ static PyObject *numtheory_solve_linear_congruence(PyObject *self, PyObject *arg
 ORDER Definition
 */
 static PyObject *numtheory_order(PyObject *self, PyObject *args) {
-	int a, m, *primes, *powers, k;
+	int a, m, *primes, *powers, powers_length, k;
 	PyObject *primes_list, *powers_list, *item;
 
-	if(!PyArg_ParseTuple(args), "OO", &primes_list, &powers_list)
+	if(!PyArg_ParseTuple(args, "iiOO", &a, &m, &primes_list, &powers_list))
 		return NULL;
 	if(!PyList_Check(powers_list) || !PyList_Check(primes_list))
 		return NULL;
@@ -338,10 +338,10 @@ static PyObject *numtheory_order(PyObject *self, PyObject *args) {
 PRIMITIVE_ROOT Definition
 */
 static PyObject *numtheory_primitive_root(PyObject *self, PyObject *args) {
-	int a, m, *primes, *powers, k;
+	int m, *primes, *powers, powers_length, k;
 	PyObject *primes_list, *powers_list, *item;
 
-	if(!PyArg_ParseTuple(args), "OO", &primes_list, &powers_list)
+	if(!PyArg_ParseTuple(args, "iOO", &m, &primes_list, &powers_list))
 		return NULL;
 	if(!PyList_Check(powers_list) || !PyList_Check(primes_list))
 		return NULL;
@@ -365,17 +365,17 @@ static PyObject *numtheory_primitive_root(PyObject *self, PyObject *args) {
 	}
 	primes[powers_length] = powers[powers_length] = 0;
 
-	return Py_BuildValue("i", primitive_root(a, m, primes, powers));
+	return Py_BuildValue("i", primitive_root(m, primes, powers));
 }
 
 /*
 ALL_PRIMITIVE_ROOTS Definition
 */
 static PyObject *numtheory_all_primitive_roots(PyObject *self, PyObject *args) {
-	int a, m, *primes, *powers, *roots, k;
+	int m, *primes, *powers, *roots, powers_length, k;
 	PyObject *primes_list, *powers_list, *roots_list, *item;
 
-	if(!PyArg_ParseTuple(args), "OO", &primes_list, &powers_list)
+	if(!PyArg_ParseTuple(args, "iOO", &m, &primes_list, &powers_list))
 		return NULL;
 	if(!PyList_Check(powers_list) || !PyList_Check(primes_list))
 		return NULL;
@@ -400,10 +400,13 @@ static PyObject *numtheory_all_primitive_roots(PyObject *self, PyObject *args) {
 	primes[powers_length] = powers[powers_length] = 0;
 
 	roots = all_primitive_roots(m, primes, powers);
+	if(roots == NULL)
+		return NULL;
+
 	roots_list = PyList_New((Py_ssize_t)0);
 	k = 0;
 	while(roots[k] != -1)
-		PyList_APPEND(roots_list, PyInt_FromLong((long)roots[k]));
+		PyList_Append(roots_list, PyInt_FromLong((long)roots[k]));
 
 	return roots_list;
 }
@@ -414,7 +417,7 @@ POW_MOD Definition
 static PyObject *numtheory_pow_mod(PyObject *self, PyObject *args) {
 	unsigned long y, x, m;
 
-	if(!PyArg_ParseTuple("kkk", &y, &x, &m))
+	if(!PyArg_ParseTuple(args, "kkk", &y, &x, &m))
 		return NULL;
 
 	return Py_BuildValue("k", pow_mod(y, x, m));
