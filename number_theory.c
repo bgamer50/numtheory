@@ -10,7 +10,7 @@ now, I have nothing since my nice documentation got deleted.
 
 /*
 Takes an int i to decompose with the given moduli.  Returns NULL if
-the moduli are not comprime.
+the moduli are not coprime.
 */
 int* crt_decompose(int i, int* mods, int mods_length) {
 	unsigned int k;

@@ -60,26 +60,36 @@ static PyObject *numtheory_crt_reconstruct(PyObject *self, PyObject *args) {
 	eq_list = malloc(sizeof(PyObject));
 	mod_list = malloc(sizeof(PyObject));
 
-	if(!PyArg_ParseTuple(args, "OO", &eq_list, &mod_list))
+	if(!PyArg_ParseTuple(args, "OO", &eq_list, &mod_list)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function crt_reconstruct.");
 		return NULL;
-	if(!PyList_Check(mod_list) || !PyList_Check(eq_list))
+	}
+	if(!PyList_Check(mod_list) || !PyList_Check(eq_list)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function crt_reconstruct.");
 		return NULL;
+	}
 
 	mods_length = PyList_Size(mod_list);
-	if(mods_length != PyList_Size(eq_list))
+	if(mods_length != PyList_Size(eq_list)) {
+		PyErr_SetString(PyExc_RuntimeError, "Lists passed to function crt_reconstruct were of differing lengths.");
 		return NULL;
+	}
 	mods = malloc(sizeof(int) * mods_length);
 	eq = malloc(sizeof(int) * mods_length);
 
 	for(k = 0; k < mods_length; k++) {
 		item = PyList_GetItem(mod_list, k);
-		if(!PyInt_Check(item))
+		if(!PyInt_Check(item)) {
+			PyErr_SetString(PyExc_RuntimeError, "Encountered non-integer element of list in function crt_reconstruct.");
 			return NULL;
+		}
 		mods[k] = (int)PyInt_AsLong(item);
 
 		item = PyList_GetItem(eq_list, k);
-		if(!PyInt_Check(item))
+		if(!PyInt_Check(item)) {
+			PyErr_SetString(PyExc_RuntimeError, "Encountered non-integer element of list in function crt_reconstruct.");
 			return NULL;
+		}
 		eq[k] = (int)PyInt_AsLong(item);
 	}
 
@@ -94,17 +104,20 @@ static PyObject *numtheory_coprime_check(PyObject *self, PyObject *args) {
 	PyObject *a_list, *item;
 	a_list = malloc(sizeof(PyObject));
 
-	if(!PyArg_ParseTuple(args, "O", &a_list))
+	if(!PyArg_ParseTuple(args, "O", &a_list) || !PyList_Check(a_list)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function coprime_check.");
 		return NULL;
-	if(!PyList_Check(a_list))
-		return NULL;
+	}
+
 	a_length = PyList_Size(a_list);
 	a = malloc(sizeof(int) * a_length);
 
 	for(k = 0; k < a_length; k++) {
 		item = PyList_GetItem(a_list, k);
-		if(!PyInt_Check(item))
+		if(!PyInt_Check(item)) {
+			PyErr_SetString(PyExc_RuntimeError, "Encountered non-integer element of list in function coprime_check.");
 			return NULL;
+		}
 		a[k] = (int)PyInt_AsLong(item);
 	}
 
@@ -117,8 +130,10 @@ MULT_INV Definition
 static PyObject *numtheory_mult_inv(PyObject *self, PyObject *args) {
 	int a, m;
 	
-	if(!PyArg_ParseTuple(args, "ii", &a, &m))
+	if(!PyArg_ParseTuple(args, "ii", &a, &m)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function mult_inv.");
 		return NULL;
+	}
 
 	return Py_BuildValue("i", mult_inv(a, m));
 }
@@ -130,8 +145,10 @@ static PyObject *numtheory_euclidean_ext(PyObject *self, PyObject *args) {
 	int a, b, *e, k;
 	PyObject *e_list;
 
-	if(!PyArg_ParseTuple(args, "ii", &a, &b))
+	if(!PyArg_ParseTuple(args, "ii", &a, &b)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function euclidean_ext.");
 		return NULL;
+	}
 
 	e = euclidean_ext(a, b);
 	e_list = PyList_New(3);
@@ -147,8 +164,10 @@ POSITIVE_RESIDUE Definition
 static PyObject *numtheory_positive_residue(PyObject *self, PyObject *args) {
 	int a, m;
 	
-	if(!PyArg_ParseTuple(args, "ii", &a, &m))
+	if(!PyArg_ParseTuple(args, "ii", &a, &m)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function positive_residue.");
 		return NULL;
+	}
 
 	return Py_BuildValue("i", positive_residue(a, m));
 }
@@ -160,12 +179,14 @@ static PyObject *numtheory_solve_linear_diophantine(PyObject *self, PyObject *ar
 	int a, b, c, k, *s;
 	PyObject *s_list;
 
-	if(!PyArg_ParseTuple(args, "iii", &a, &b, &c))
+	if(!PyArg_ParseTuple(args, "iii", &a, &b, &c)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function solve_linear_diophantine.");
 		return NULL;
+	}
 
 	s = solve_linear_diophantine(a, b, c);
-	if(s == NULL)
-		return NULL;
+	if(s == NULL) 
+		Py_RETURN_NONE;
 
 	s_list = PyList_New(4);
 	for(k = 0; k < 4; k++)
@@ -180,8 +201,10 @@ LEGENDRE Definition
 static PyObject *numtheory_legendre(PyObject *self, PyObject *args) {
 	int a, p;
 
-	if(!PyArg_ParseTuple(args, "ii", &a, &p))
+	if(!PyArg_ParseTuple(args, "ii", &a, &p)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function legendre.");
 		return NULL;
+	}
 
 	return Py_BuildValue("i", legendre(a, p));
 }
@@ -192,8 +215,10 @@ LEGENDRE_PRIME Definition
 static PyObject *numtheory_legendre_prime(PyObject *self, PyObject *args) {
 	int p, q;
 
-	if(!PyArg_ParseTuple(args, "ii", &p, &q))
+	if(!PyArg_ParseTuple(args, "ii", &p, &q)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function legendre_prime.");
 		return NULL;
+	}
 
 	return Py_BuildValue("i", legendre_prime(p, q));
 }
@@ -205,10 +230,10 @@ static PyObject *numtheory_tau(PyObject *self, PyObject *args) {
 	int *powers, powers_length, k;
 	PyObject *powers_list, *item;
 
-	if(!PyArg_ParseTuple(args, "O", &powers_list))
+	if(!PyArg_ParseTuple(args, "O", &powers_list) || !PyList_Check(powers_list)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function tau.");
 		return NULL;
-	if(!PyList_Check(powers_list))
-		return NULL;
+	}
 
 	powers_length = PyList_Size(powers_list);
 	powers = malloc(sizeof(int) * (powers_length + 1));
@@ -231,27 +256,33 @@ static PyObject *numtheory_phi(PyObject *self, PyObject *args) {
 	int *primes, *powers, powers_length, k;
 	PyObject *primes_list, *powers_list, *item;
 
-	if(!PyArg_ParseTuple(args, "OO", &primes_list, &powers_list))
+	if(!PyArg_ParseTuple(args, "OO", &primes_list, &powers_list) || !PyList_Check(powers_list) || !PyList_Check(primes_list)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function phi.");
 		return NULL;
-	if(!PyList_Check(powers_list) || !PyList_Check(primes_list))
-		return NULL;
+	}
 
 	powers_length = PyList_Size(powers_list);
 	powers = malloc(sizeof(int) * (powers_length + 1));
-	if(PyList_Size(primes_list) != powers_length)
+	if(PyList_Size(primes_list) != powers_length) {
+		PyErr_SetString(PyExc_RuntimeError, "Lists passed to function phi were of differing lengths.");
 		return NULL;
+	}
 	primes = malloc(sizeof(int) * (powers_length + 1));
 
 
 	for(k = 0; k < powers_length; k++) {
 		item = PyList_GetItem(powers_list, k);
-		if(!PyInt_Check(item))
+		if(!PyInt_Check(item)) {
+			PyErr_SetString(PyExc_RuntimeError, "Encountered non-integer element of list in function phi.");
 			return NULL;
+		}
 		powers[k] = (int)PyInt_AsLong(item);
 
 		item = PyList_GetItem(primes_list, k);
-		if(!PyInt_Check(item))
+		if(!PyInt_Check(item)) {
+			PyErr_SetString(PyExc_RuntimeError, "Encountered non-integer element of list in function phi.");
 			return NULL;
+		}
 		primes[k] = (int)PyInt_AsLong(item);
 	}
 	primes[powers_length] = powers[powers_length] = 0;
@@ -266,27 +297,33 @@ static PyObject *numtheory_sigma(PyObject *self, PyObject *args) {
 	int *primes, *powers, powers_length, k;
 	PyObject *primes_list, *powers_list, *item;
 
-	if(!PyArg_ParseTuple(args, "OO", &primes_list, &powers_list))
+	if(!PyArg_ParseTuple(args, "OO", &primes_list, &powers_list) || !PyList_Check(powers_list) || !PyList_Check(primes_list)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function sigma.");
 		return NULL;
-	if(!PyList_Check(powers_list) || !PyList_Check(primes_list))
-		return NULL;
+	}
 
 	powers_length = PyList_Size(powers_list);
 	powers = malloc(sizeof(int) * (powers_length + 1));
-	if(PyList_Size(primes_list) != powers_length)
+	if(PyList_Size(primes_list) != powers_length) {
+		PyErr_SetString(PyExc_RuntimeError, "Lists passed to function sigma were of differing lengths.");
 		return NULL;
+	}
 	primes = malloc(sizeof(int) * (powers_length + 1));
 
 
 	for(k = 0; k < powers_length; k++) {
 		item = PyList_GetItem(powers_list, k);
-		if(!PyInt_Check(item))
+		if(!PyInt_Check(item)) {
+			PyErr_SetString(PyExc_RuntimeError, "Encountered non-integer element of list in function sigma.");
 			return NULL;
+		}
 		powers[k] = (int)PyInt_AsLong(item);
 
 		item = PyList_GetItem(primes_list, k);
-		if(!PyInt_Check(item))
+		if(!PyInt_Check(item)) {
+			PyErr_SetString(PyExc_RuntimeError, "Encountered non-integer element of list in function sigma.");
 			return NULL;
+		}
 		primes[k] = (int)PyInt_AsLong(item);
 	}
 	primes[powers_length] = powers[powers_length] = 0;
@@ -300,8 +337,10 @@ SOLVE_LINEAR_CONGRUENCE Definition
 static PyObject *numtheory_solve_linear_congruence(PyObject *self, PyObject *args) {
 	int a, b, m;
 
-	if(!PyArg_ParseTuple(args, "iii", &a, &b, &m))
+	if(!PyArg_ParseTuple(args, "iii", &a, &b, &m)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function solve_linear_congruence.");
 		return NULL;
+	}
 
 	return Py_BuildValue("i", solve_linear_congruence(a, b, m));
 }
@@ -313,26 +352,32 @@ static PyObject *numtheory_order(PyObject *self, PyObject *args) {
 	int a, m, *primes, *powers, powers_length, k;
 	PyObject *primes_list, *powers_list, *item;
 
-	if(!PyArg_ParseTuple(args, "iiOO", &a, &m, &primes_list, &powers_list))
+	if(!PyArg_ParseTuple(args, "iiOO", &a, &m, &primes_list, &powers_list) || !PyList_Check(powers_list) || !PyList_Check(primes_list)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function order.");
 		return NULL;
-	if(!PyList_Check(powers_list) || !PyList_Check(primes_list))
-		return NULL;
+	}
 
 	powers_length = PyList_Size(powers_list);
 	powers = malloc(sizeof(int) * (powers_length + 1));
-	if(PyList_Size(primes_list) != powers_length)
+	if(PyList_Size(primes_list) != powers_length) {
+		PyErr_SetString(PyExc_RuntimeError, "Lists passed to function order were of differing lengths.");
 		return NULL;
+	}
 	primes = malloc(sizeof(int) * (powers_length + 1));
 
 	for(k = 0; k < powers_length; k++) {
 		item = PyList_GetItem(powers_list, k);
-		if(!PyInt_Check(item))
+		if(!PyInt_Check(item)) {
+			PyErr_SetString(PyExc_RuntimeError, "Encountered non-integer element of list in function order.");
 			return NULL;
+		}
 		powers[k] = (int)PyInt_AsLong(item);
 
 		item = PyList_GetItem(primes_list, k);
-		if(!PyInt_Check(item))
+		if(!PyInt_Check(item)) {
+			PyErr_SetString(PyExc_RuntimeError, "Encountered non-integer element of list in function order.");
 			return NULL;
+		}
 		primes[k] = (int)PyInt_AsLong(item);
 	}
 	primes[powers_length] = powers[powers_length] = 0;
@@ -347,26 +392,32 @@ static PyObject *numtheory_primitive_root(PyObject *self, PyObject *args) {
 	int m, *primes, *powers, powers_length, k;
 	PyObject *primes_list, *powers_list, *item;
 
-	if(!PyArg_ParseTuple(args, "iOO", &m, &primes_list, &powers_list))
+	if(!PyArg_ParseTuple(args, "iOO", &m, &primes_list, &powers_list) !PyList_Check(powers_list) || !PyList_Check(primes_list)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function primitive_root.");
 		return NULL;
-	if(!PyList_Check(powers_list) || !PyList_Check(primes_list))
-		return NULL;
+	}
 
 	powers_length = PyList_Size(powers_list);
 	powers = malloc(sizeof(int) * (powers_length + 1));
-	if(PyList_Size(primes_list) != powers_length)
+	if(PyList_Size(primes_list) != powers_length) {
+		PyErr_SetString(PyExc_RuntimeError, "Lists passed to function primitive_root were of differing lengths.");
 		return NULL;
+	}
 	primes = malloc(sizeof(int) * (powers_length + 1));
 
 	for(k = 0; k < powers_length; k++) {
 		item = PyList_GetItem(powers_list, k);
-		if(!PyInt_Check(item))
+		if(!PyInt_Check(item)) {
+			PyErr_SetString(PyExc_RuntimeError, "Encountered non-integer element of list in function primitive_root.");
 			return NULL;
+		}
 		powers[k] = (int)PyInt_AsLong(item);
 
 		item = PyList_GetItem(primes_list, k);
-		if(!PyInt_Check(item))
+		if(!PyInt_Check(item)) {
+			PyErr_SetString(PyExc_RuntimeError, "Encountered non-integer element of list in function primitive_root.");
 			return NULL;
+		}
 		primes[k] = (int)PyInt_AsLong(item);
 	}
 	primes[powers_length] = powers[powers_length] = 0;
@@ -381,26 +432,32 @@ static PyObject *numtheory_all_primitive_roots(PyObject *self, PyObject *args) {
 	int m, *primes, *powers, *roots, powers_length, k;
 	PyObject *primes_list, *powers_list, *roots_list, *item;
 
-	if(!PyArg_ParseTuple(args, "iOO", &m, &primes_list, &powers_list))
+	if(!PyArg_ParseTuple(args, "iOO", &m, &primes_list, &powers_list) || !PyList_Check(powers_list) || !PyList_Check(primes_list)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function all_primitive_roots.");
 		return NULL;
-	if(!PyList_Check(powers_list) || !PyList_Check(primes_list))
-		return NULL;
+	}
 
 	powers_length = PyList_Size(powers_list);
 	powers = malloc(sizeof(int) * (powers_length + 1));
-	if(PyList_Size(primes_list) != powers_length)
+	if(PyList_Size(primes_list) != powers_length) {
+		PyErr_SetString(PyExc_RuntimeError, "Lists passed to function all_primitive_roots were of differing lengths.");
 		return NULL;
+	}
 	primes = malloc(sizeof(int) * (powers_length + 1));
 
 	for(k = 0; k < powers_length; k++) {
 		item = PyList_GetItem(powers_list, k);
-		if(!PyInt_Check(item))
+		if(!PyInt_Check(item)) {
+			PyErr_SetString(PyExc_RuntimeError, "Encountered non-integer element in function all_primitive_roots.");
 			return NULL;
+		}
 		powers[k] = (int)PyInt_AsLong(item);
 
 		item = PyList_GetItem(primes_list, k);
-		if(!PyInt_Check(item))
+		if(!PyInt_Check(item)) {
+			PyErr_SetString(PyExc_RuntimeError, "Encountered non-integer element in function all_primitive_roots.");
 			return NULL;
+		}
 		primes[k] = (int)PyInt_AsLong(item);
 	}
 	primes[powers_length] = powers[powers_length] = 0;
@@ -425,10 +482,38 @@ POW_MOD Definition
 static PyObject *numtheory_pow_mod(PyObject *self, PyObject *args) {
 	unsigned long y, x, m;
 
-	if(!PyArg_ParseTuple(args, "kkk", &y, &x, &m))
+	if(!PyArg_ParseTuple(args, "kkk", &y, &x, &m)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function pow_mod");
 		return NULL;
+	}
 
 	return Py_BuildValue("k", pow_mod(y, x, m));
+}
+
+/*
+LEGENDRE Definition
+*/
+static PyObject *legendre(PyObject *self, PyObject *args) {
+	long a, p;
+	if(!PyArg_ParseTuple(args, "ii", &a, &p)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function legendre.");
+		return NULL;
+	}
+
+	return Py_BuildValue("i", legendre(a, p));
+}
+
+/*
+LEGENDRE_PRIME Definition
+*/
+static PyObject *legendre_prime(PyObject *self, PyObject *args) {
+	long p, q;
+	if(!PyArg_ParseTuple(args, "ii", &p, &q)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function legendre_prime.");
+		return NULL;
+	}
+
+	return Py_BuildValue("i", legendre_prime(p, q));
 }
 
 /*
