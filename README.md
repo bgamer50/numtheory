@@ -1,6 +1,6 @@
 # README
 
-The finished version of this project will hopefully be a Python library of Number Theory functions.
+This project is a Python library of Number Theory functions.  It also includes fully usable C versions of those functions, making it useful for C projects as well.
 
 ## Done:
 	1. Basic modular arithmetic functions (a sample)
@@ -18,20 +18,20 @@ The finished version of this project will hopefully be a Python library of Numbe
 		* Find φ(n), Τ(n), σ(n) Given Prime Factorizations
 		* Find the Order of a Number Mod m Given Prime Factorizations
 		* Find Primitive Roots Given Prime Factorizations
-
-## To-Do:
-	1. Python Librarification
+	3. Python Librarification
 		* Basic importable library
 		* Proper installable library
-	2. Really Cool Stuff
+
+## To-Do:
+	1. Really Cool Stuff
 		* More CRT fun
 		* Better Legendre
 		* Objects???
 		* ???
-	3. More Advanced Functions
+	2. More Advanced Functions
 		* ???
-	4. More Basic Functions
+	3. More Basic Functions
 		* ???
-	5. Documentation
+	4. Documentation
 		* Advanced functions (i.e. crt_decompose)
 		* Basic functions (basically teaching Elementary Number Theory)
