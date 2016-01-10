@@ -392,7 +392,7 @@ static PyObject *numtheory_primitive_root(PyObject *self, PyObject *args) {
 	int m, *primes, *powers, powers_length, k;
 	PyObject *primes_list, *powers_list, *item;
 
-	if(!PyArg_ParseTuple(args, "iOO", &m, &primes_list, &powers_list) !PyList_Check(powers_list) || !PyList_Check(primes_list)) {
+	if(!PyArg_ParseTuple(args, "iOO", &m, &primes_list, &powers_list) || !PyList_Check(powers_list) || !PyList_Check(primes_list)) {
 		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function primitive_root.");
 		return NULL;
 	}
@@ -488,32 +488,6 @@ static PyObject *numtheory_pow_mod(PyObject *self, PyObject *args) {
 	}
 
 	return Py_BuildValue("k", pow_mod(y, x, m));
-}
-
-/*
-LEGENDRE Definition
-*/
-static PyObject *legendre(PyObject *self, PyObject *args) {
-	long a, p;
-	if(!PyArg_ParseTuple(args, "ii", &a, &p)) {
-		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function legendre.");
-		return NULL;
-	}
-
-	return Py_BuildValue("i", legendre(a, p));
-}
-
-/*
-LEGENDRE_PRIME Definition
-*/
-static PyObject *legendre_prime(PyObject *self, PyObject *args) {
-	long p, q;
-	if(!PyArg_ParseTuple(args, "ii", &p, &q)) {
-		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function legendre_prime.");
-		return NULL;
-	}
-
-	return Py_BuildValue("i", legendre_prime(p, q));
 }
 
 /*

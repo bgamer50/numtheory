@@ -34,3 +34,7 @@ z.sort()
 print(z)
 print(numtheory.pow_mod(5, 60, 2))
 print(numtheory.pow_mod(5, 60, 139))
+
+print(numtheory.legendre(5, 3))
+print(numtheory.legendre(4, 7))
+print(numtheory.legendre_prime(5, 31))
