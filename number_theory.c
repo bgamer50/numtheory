@@ -267,8 +267,10 @@ than n.  Primes is formatted as follows:
 int phi(int *primes, int *powers) {
 	int k = 0;
 	int p = 1;
+	int l;
 	while(primes[k] > 0) {
-		p *= pow(primes[k], powers[k]) * (1 - (1.0 / primes[k]));
+		l = pow(primes[k], powers[k]);
+		p *= l - l / primes[k];
 		k++;
 	}
 
@@ -315,7 +317,7 @@ Primes and powers of m are formatted as in phi.
 Returns -1 if there are no primitive roots.
 */
 int primitive_root(int m, int *primes, int *powers) {
-	int p, k, a;
+	unsigned int p, k, a;
 	int f = 0;
 
 	p = phi(primes, powers);
@@ -346,7 +348,7 @@ int *all_primitive_roots(int m, int *primes, int *powers) {
 	int k, i = 1;
 	int p = phi(primes, powers);
 	int *roots = malloc(sizeof(int) * 10);
-	int arr_size = 10;
+	unsigned int arr_size = 10;
 
 	roots[0] = primitive_root(m, primes, powers);
 	if(roots[0] == -1) {

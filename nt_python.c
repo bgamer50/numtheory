@@ -1,6 +1,6 @@
 #include <Python.h>
 #include "number_theory.h"
-
+#include <stdio.h>
 /*
 GCD Definition
 */
@@ -400,8 +400,8 @@ static PyObject *numtheory_all_primitive_roots(PyObject *self, PyObject *args) {
 	primes[powers_length] = powers[powers_length] = 0;
 
 	roots = all_primitive_roots(m, primes, powers);
-	if(roots == NULL)
-		return NULL;
+	if(roots == NULL) 
+		Py_RETURN_NONE;
 
 	roots_list = PyList_New((Py_ssize_t)0);
 	k = 0;
