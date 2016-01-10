@@ -6,8 +6,10 @@ GCD Definition
 */
 static PyObject *numtheory_gcd(PyObject *self, PyObject *args) {
 	int a, b;
-	if(!PyArg_ParseTuple(args, "ii", &a, &b))
+	if(!PyArg_ParseTuple(args, "ii", &a, &b)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function gcd.");
 		return NULL;
+	}
 	return Py_BuildValue("i", gcd(a, b));
 }
 
@@ -19,24 +21,28 @@ static PyObject *numtheory_crt_decompose(PyObject *self, PyObject *args) {
 	PyObject *obj, *item, *decomp_list;
 	obj = malloc(sizeof(PyObject));	
 
-	if(!PyArg_ParseTuple(args, "iO", &i, &obj))
+	if(!PyArg_ParseTuple(args, "iO", &i, &obj) || !PyList_Check(obj)) {
+		PyErr_SetString(PyExc_RuntimeError, "Illegal argument passed to function crt_decompose.");
 		return NULL;
-	if(!PyList_Check(obj))
-		return NULL;
+	}
 
 	mods_length = PyList_Size(obj);
 	mods = malloc(sizeof(int) * mods_length);
 
 	for(k = 0; k < mods_length; k++) {
 		item = PyList_GetItem(obj, k);
-		if(!PyInt_Check(item))
+		if(!PyInt_Check(item)) {
+			PyErr_SetString(PyExc_RuntimeError, "Encountered non-integer element of list in function crt_decompose.");
 			return NULL;
+		}
 		mods[k] = (int)PyInt_AsLong(item);
 	}
 
 	decomp = crt_decompose(i, mods, mods_length);
-	if(decomp == NULL)
+	if(decomp == NULL) {
+		PyErr_SetString(PyExc_RuntimeError, "Moduli in list were not coprime in function crt_decompose.");
 		return NULL;
+	}
 
 	decomp_list = PyList_New(mods_length);
 	for(k = 0; k < mods_length; k++)
