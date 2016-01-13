@@ -35,3 +35,7 @@ This project is a Python library of Number Theory functions.  It also includes f
 	4. Documentation
 		* Advanced functions (i.e. crt_decompose)
 		* Basic functions (basically teaching Elementary Number Theory)
+
+## Installation:
+	Run `python setup.py install`.  May require administrative permission (i.e. `sudo python setup.py install`).
+	Not compatible with Cygwin unfortunately.
