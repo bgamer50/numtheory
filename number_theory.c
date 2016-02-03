@@ -9,12 +9,12 @@ now, I have nothing since my nice documentation got deleted.
 */
 
 /*
-Takes an int i to decompose with the given moduli.  Returns NULL if
+Takes an integer i to decompose with the given moduli.  Returns NULL if
 the moduli are not coprime.
 */
-int* crt_decompose(int i, int* mods, int mods_length) {
+long *crt_decompose(long i, long* mods, unsigned int mods_length) {
 	unsigned int k;
-	int* decomp;
+	long* decomp;
 	if(!coprime_check(mods, mods_length))
 		return NULL;
 
@@ -27,13 +27,13 @@ int* crt_decompose(int i, int* mods, int mods_length) {
 }
 
 /*
-Takes an int and reconstructs it using the power of the CRT.
+Takes an integer and reconstructs it using the power of the CRT.
 eq, mods are such that x cong. eq[i] (mod mods[i])
 */
-int crt_reconstruct(int* eq, int* mods, int mods_length) {
-	int* n = malloc(sizeof(int) * mods_length);
-	int n_product = 1;
-	int val = 0;
+long crt_reconstruct(long* eq, long* mods, unsigned int mods_length) {
+	long* n = malloc(sizeof(long) * mods_length);
+	long n_product = 1;
+	long val = 0;
 	unsigned int k;
 	if(sizeof(eq) != sizeof(mods) || !coprime_check(mods, mods_length))
 		return -1;
@@ -54,7 +54,7 @@ int crt_reconstruct(int* eq, int* mods, int mods_length) {
 /*
 Ensure that everything in the array is coprime.
 */
-int coprime_check(int *a, int a_length) {
+int coprime_check(long *a, unsigned int a_length) {
 	int k, i;
 
 	for(k = 0; k < a_length; k++)
@@ -67,8 +67,8 @@ int coprime_check(int *a, int a_length) {
 /*
 Returns the gcd of a and b (uses the Euclidean algorithm)
 */
-int gcd(int a, int b) {
-	int t;
+long gcd(long a, long b) {
+	long t;
 	/*swap a and b if a is smaller*/
 	if(a < b) {
 		t = a;
@@ -89,10 +89,10 @@ int gcd(int a, int b) {
 Returns the multiplicative inverse mod m of a.
 Behavior undefined if no inverse exists.
 */
-int mult_inv(int a, int m) {
-	int s = 0, sP = 1;
-	int r = m, rP = a;
-	int q, tmp;
+long mult_inv(long a, long m) {
+	long s = 0, sP = 1;
+	long r = m, rP = a;
+	long q, tmp;
 
 	while(r != 0) {
 		q = rP / r;
@@ -113,8 +113,8 @@ Extended Eucliean Algorithm.  Returns the gcd of
 a and b, and coefficients such that a * cA + b * cB = gcd(a, b).
 Formatted as follows: [gcd, cA, cB]
 */
-int *euclidean_ext(int a, int b) {
-	int *arr = malloc(sizeof(int) * 3);
+long *euclidean_ext(long a, long b) {
+	long *arr = malloc(sizeof(long) * 3);
 	int s = 0;
 	int t = 1;
 	int r = b;
@@ -146,7 +146,7 @@ int *euclidean_ext(int a, int b) {
 Converts a to an equivalent positive residue
 mod m.
 */
-int positive_residue(int a, int m) {
+long positive_residue(long a, long m) {
 	while(a < 0)
 		a += m;
 	return a;
@@ -162,11 +162,11 @@ Returned arrays are of the form [x0, c1, y0, c2] and
 solutions are of the form x = x0 + c1*t, y = y0 +c2*t
 where t is any integer.
 */
-int *solve_linear_diophantine(int a, int b, int c) {
-	int *arr = NULL;
-	int *e = euclidean_ext(a, b);
+long *solve_linear_diophantine(long a, long b, long c) {
+	long *arr = NULL;
+	long *e = euclidean_ext(a, b);
 	if(c % e[0] == 0) {
-		arr = malloc(sizeof(int) * 4);
+		arr = malloc(sizeof(long) * 4);
 		arr[0] = e[1] * c / e[0];
 		arr[2] = e[2] * c / e[0];
 		arr[1] = b / e[0];
@@ -229,9 +229,9 @@ of n.  Primes is formatted as follows:
 follows: [k1, k2...0] where n
 = p1^k1 * p2^k2 * p3^k3...
 */
-int sigma(int *primes, int *powers) {
+long sigma(long *primes, long *powers) {
 	int k = 0;
-	int s = 1;
+	long s = 1;
 	while(primes[k] > 0) {
 		s *= ( pow(primes[k], powers[k] + 1) - 1) / (primes[k] - 1);
 		k++;
@@ -246,9 +246,9 @@ the number of positive divisors of n.  Powers
 is formatted as follows: [k1, k2...0] where
 n = p1^k1 * p2^k2...
 */
-int tau(int *powers) {
+long tau(long *powers) {
 	int k = 0;
-	int t = 1;
+	long t = 1;
 	while(powers[k] > 0) {
 		t *= powers[k] + 1;
 		k++;
@@ -264,10 +264,10 @@ than n.  Primes is formatted as follows:
 [p1, p2...0]; Powers is formatted as follows:
 [k1, k2...0] where n = p1^k1 * p2^k2...
 */
-int phi(int *primes, int *powers) {
+long phi(long *primes, long *powers) {
 	int k = 0;
-	int p = 1;
-	int l;
+	long p = 1;
+	long l;
 	while(primes[k] > 0) {
 		l = pow(primes[k], powers[k]);
 		p *= l - l / primes[k];
@@ -282,8 +282,8 @@ Solves linear congruence equations of the form
 a*x cong. b (mod m). Returns 0 if no solution
 exists.
 */
-int solve_linear_congruence(int a, int b, int m) {
-	int *s = solve_linear_diophantine(a, m, b);
+long solve_linear_congruence(long a, long b, long m) {
+	long *s = solve_linear_diophantine(a, m, b);
 	if(s == NULL)
 		return 0;
 	else
@@ -296,9 +296,9 @@ Finds the order of a mod m, provided gcd(a,m) = 1.
 Primes and powers of m are formatted as in phi.  Returns
 -1 if a and m are not coprime.
 */
-int order(int a, int m, int *primes, int *powers) {
-	int p;
-	int d = gcd(a, m);
+long order(long a, long m, long *primes, long *powers) {
+	long p;
+	long d = gcd(a, m);
 	int k;
 
 	if(d != 1)
@@ -316,9 +316,10 @@ Finds a single primitive root mod m if one exists.
 Primes and powers of m are formatted as in phi.
 Returns -1 if there are no primitive roots.
 */
-int primitive_root(int m, int *primes, int *powers) {
-	unsigned int p, k, a;
-	int f = 0;
+long primitive_root(long m, long *primes, long *powers) {
+	unsigned long p, a;
+	int k;
+	unsigned int f = 0;
 
 	p = phi(primes, powers);
 	for(a = 2; a < m; a++) {
@@ -344,10 +345,10 @@ Primes and powers of m are formatted as in phi.
 Returns NULL if there are no primitive roots.
 Array is terminated by -1.
 */
-int *all_primitive_roots(int m, int *primes, int *powers) {
+long *all_primitive_roots(int m, int *primes, int *powers) {
 	int k, i = 1;
-	int p = phi(primes, powers);
-	int *roots = malloc(sizeof(int) * 10);
+	long p = phi(primes, powers);
+	long *roots = malloc(sizeof(long) * 10);
 	unsigned int arr_size = 10;
 
 	roots[0] = primitive_root(m, primes, powers);

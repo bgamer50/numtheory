@@ -2,39 +2,39 @@
 #define NUMBER_THEORY_H
 
 /*Definitions and such*/
-int *crt_decompose(int i, int *mods, int mods_length);
+long *crt_decompose(long i, long *mods, unsigned int mods_length);
 
-int crt_reconstruct(int *eq, int *mods, int mods_length);
+long crt_reconstruct(long *eq, long *mods, unsigned int mods_length);
 
-int coprime_check(int* a, int a_length);
+int coprime_check(long* a, unsigned int a_length);
 
-int mult_inv(int a, int m);
+long mult_inv(long a, long m);
 
-int gcd(int a, int b);
+long gcd(long a, long b);
 
-int *euclidean_ext(int a, int b);
+long *euclidean_ext(long a, long b);
 
-int positive_residue(int a, int m);
+long positive_residue(long a, long m);
 
-int *solve_linear_diophantine(int a, int b, int c);
+long *solve_linear_diophantine(long a, long b, long c);
 
 int legendre(long a, long p);
 
 int legendre_prime(long p, long q);
 
-int tau(int *powers);
+long tau(long *powers);
 
-int phi(int *primes, int *powers);
+long phi(long *primes, long *powers);
 
-int sigma(int *primes, int *powers);
+long sigma(long *primes, long *powers);
 
-int solve_linear_congruence(int a, int b, int m);
+long solve_linear_congruence(long a, long b, long m);
 
-int order(int a, int m, int *primes, int *powers);
+long order(long a, long m, long *primes, long *powers);
 
-int primitive_root(int m, int *primes, int *powers);
+long primitive_root(long m, long *primes, long *powers);
 
-int *all_primitive_roots(int m, int *primes, int *powers);
+long *all_primitive_roots(long m, long *primes, long *powers);
 
 unsigned long pow_mod(unsigned long y, unsigned long x, unsigned long m);
 
